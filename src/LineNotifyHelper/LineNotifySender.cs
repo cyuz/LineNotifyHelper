@@ -95,6 +95,11 @@ namespace LineNotifyHelper
         /// <returns></returns>
         public async Task<LineResponse<LineBaseResponseBody>> NotifyMessageAsync(string accessToken, string message, string stickerPackageId = null, string stickerId = null)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                throw new ArgumentNullException("message", "message is required");
+            }
+
             using HttpClient client = _httpClientFactory.CreateClient();
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", accessToken);
