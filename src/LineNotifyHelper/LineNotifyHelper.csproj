@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.9.0</Version>
+    <Authors>yuchih_chen</Authors>
+    <Description>A c# tool to wrap API for Line Notify</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/cyuz/LineNotifyHelper.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cyuz/LineNotifyHelper.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Line Notify</PackageTags>
+    <Copyright>Copyright Reserved</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
