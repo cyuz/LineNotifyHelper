@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
     <Authors>yuchih_chen</Authors>
     <Description>A c# tool to wrap API for Line Notify</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -13,6 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Line Notify</PackageTags>
     <Copyright>Copyright Reserved</Copyright>
+    <PackageReleaseNotes>NotifyMessageAsync require message argument</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
