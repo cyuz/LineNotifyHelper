@@ -25,6 +25,27 @@ namespace ConsoleApp
             var result = sender.NotifyMessageAsync(access_token, "Hello World!!").Result;
 
             Console.WriteLine("Response:" + JsonSerializer.Serialize(result));
+
+            if (!result.Success)
+            {
+                /// Http Status Code
+                Console.WriteLine(result.StatusCode);
+                /// raw message status
+                Console.WriteLine(result.ErrorBody.status);
+                /// raw message conent
+                Console.WriteLine(result.ErrorBody.message);
+            }
+
+            /// cannot send sticker without message
+            result = sender.NotifyMessageAsync(access_token, "*", "446", "1988").Result;
+            Console.WriteLine("Response:" + JsonSerializer.Serialize(result));
+
+            if(!result.Success)
+            {
+                Console.WriteLine(result.StatusCode);
+                Console.WriteLine(result.ErrorBody.status);
+                Console.WriteLine(result.StatusCode);
+            }
         }
     }
 }
