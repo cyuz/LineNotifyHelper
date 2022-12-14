@@ -66,7 +66,7 @@ namespace LineNotifyHelper
         /// <returns></returns>
         public async Task<LineResponse<GetAccessTokenResponse>> GetAccessTokenAsync(string authorizationCode, string redirectUri = null)
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.BotBaseUrl);
 
             var dict = new Dictionary<string, string>();
@@ -100,7 +100,7 @@ namespace LineNotifyHelper
                 throw new ArgumentNullException("message", "message is required");
             }
 
-            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -133,7 +133,7 @@ namespace LineNotifyHelper
         /// <returns></returns>
         public async Task<LineResponse<LineBaseResponseBody>> RevokeAuthorizationAsync(string accessToken)
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.NotifyBaseUrl);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -150,7 +150,7 @@ namespace LineNotifyHelper
 
         public LineResponse<GetStatusResponse> GetStatus(string accessToken)
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.NotifyBaseUrl);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
