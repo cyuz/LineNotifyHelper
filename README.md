@@ -28,20 +28,8 @@ string access_token = "YOUR_ACCESS_TOKEN";
 
 var result = sender.NotifyMessageAsync(access_token, "Hello World!!", PackageID, StickerID).Result;
 ```
-5. to check detail fail reason
-```
-if (!result.Success)
-{
-	/// Http Status Code
-	Console.WriteLine(result.StatusCode);
-	/// raw message status
-	Console.WriteLine(result.ErrorBody.status);
-	/// raw message conent
-	Console.WriteLine(result.ErrorBody.message);
-}
-```
 
-### General Use
+### General Use(send message to registered users)
 1. acquire client_id/client_secrect from line notify offical page, and setup callbackurl correctly(e.g. https://localhost:5000/Home/Parse)
 2. modify appsettings.json
 ```
@@ -51,6 +39,7 @@ if (!result.Success)
     "CallbackUrl": "YOUR_CALLBACK_URL"
     //"BotBaseUrl": "https://notify-bot.line.me/",
     //"NotifyBaseUrl": "https://notify-api.line.me/",
+    //"NamedClient" : "YOUR_HTTP_CLIENT_NAME"
   },
 ```
 3. inject LineNotifySender to service
@@ -70,15 +59,11 @@ public void ConfigureServices(IServiceCollection services)
 public IActionResult ConnectLine()
 {
 	string state = GenearteSecrectStringAndStore()
-	string url = _notifySender.GenerateAuthorizeUri(state);
+	string url = _notifySender.GenerateAuthorizeUrl(state);
 	return Redirect(url);
 }
 ```
-5. if you need call the callback via GET
-```
-string url = _notifySender.GenerateAuthorizeUri(state, false);
-```
-6. when user agree, line will call the callback with code & state
+5. when user agree, line will redirect the callbackurl with code & state, use authorize code to get access token, and keep access token
 ```
 [HttpPost]
 public async Task<IActionResult> Parse(string code, string state)
@@ -109,7 +94,7 @@ public async Task<IActionResult> Parse(string code, string state)
 	return RedirectToAction("Index");
 }
 ```
-7. to send message to user, just retrieve access token and send to it
+6. for sending message to user, just retrieve access token and send to it
 ```
 public async Task<IActionResult> Hello(int id)
 {
@@ -119,7 +104,7 @@ public async Task<IActionResult> Hello(int id)
 	return RedirectToAction("Index");
 }
 ```
-8. to revoke user acess token
+7. or revoke user acess token
 ```
 public async Task<IActionResult> Revoke(int id)
 {
@@ -137,3 +122,40 @@ public async Task<IActionResult> Revoke(int id)
 	return RedirectToAction("Index");
 }
 ```
+### Other
+1. if you need the callbackUrl is called via GET
+```
+string url = _notifySender.GenerateAuthorizeUrl(state, false);
+```
+2. if you have registered multiple callbackUrls, and you need different callbackUrl by condition
+```
+/// assign callbackUrl parameter when generate AuthorizeUrl
+string url = _notifySender.GenerateAuthorizeUrl(state, true, YOUR_ANOTHER_CALLBACK);
+```
+```
+/// and assign same callbackUrl in GetAccessTokenAsync
+LineResponse<GetAccessTokenResponse> response = await _notifySender.GetAccessTokenAsync(code, YOUR_ANOTHER_CALLBACK);
+```
+3. to use named client, specify NamedClient parameter in setting
+```
+  "LineNotifyOptions": {
+    "ClientId": "YOUR_CLIEND_ID",
+    "ClinetSecret": "YOUR_CLIENT_SECRET",
+    "CallbackUrl": "YOUR_CALLBACK_URL",
+    "NamedClient" : "YOUR_HTTP_CLIENT_NAME"
+  },
+```
+4. to check detail fail reason
+```
+if (!result.Success)
+{
+	/// Http Status Code
+	Console.WriteLine(result.StatusCode);
+	/// raw message status
+	Console.WriteLine(result.ErrorBody.status);
+	/// raw message conent
+	Console.WriteLine(result.ErrorBody.message);
+}
+```
+
+
