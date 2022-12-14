@@ -113,7 +113,7 @@ namespace WebDemo.Controllers
 
             string state = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(id + "/" + secrectString));
 
-            string url = _notifySender.GenerateAuthorizeUri(state);
+            string url = _notifySender.GenerateAuthorizeUrl(state);
             return Redirect(url);
         }
 

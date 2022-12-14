@@ -32,9 +32,9 @@ namespace LineNotifyHelper
         /// </summary>
         /// <param name="state">random generated state</param>
         /// <param name="via_post">return from POST or GET</param>
-        /// <param name="redirectUri">override redirectUri in options</param>
+        /// <param name="callbackUrl">override callbackUrl in options</param>
         /// <returns></returns>
-        public string GenerateAuthorizeUri(string state, bool via_post = true, string redirectUri = null)
+        public string GenerateAuthorizeUrl(string state, bool via_post = true, string callbackUrl = null)
         {
             Uri baseUri = new Uri(_options.BotBaseUrl);
             Uri uri = new Uri(baseUri, AuthorizeAPI);
@@ -43,7 +43,7 @@ namespace LineNotifyHelper
             var query = HttpUtility.ParseQueryString(builder.Query);
             query["response_type"] = "code";
             query["client_id"] = _options.ClientId;
-            query["redirect_uri"] = redirectUri ?? _options.CallbackUrl;
+            query["redirect_uri"] = callbackUrl ?? _options.CallbackUrl;
             query["scope"] = "notify";
             query["state"] = state;
             if (via_post)
@@ -62,9 +62,9 @@ namespace LineNotifyHelper
         ///  just save the access token for future use
         /// </summary>
         /// <param name="authorizationCode">the authorizationCode of this user</param>
-        /// <param name="redirectUri">override redirectUri in options</param>
+        /// <param name="callbackUrl">override callbackUrl in options</param>
         /// <returns></returns>
-        public async Task<LineResponse<GetAccessTokenResponse>> GetAccessTokenAsync(string authorizationCode, string redirectUri = null)
+        public async Task<LineResponse<GetAccessTokenResponse>> GetAccessTokenAsync(string authorizationCode, string callbackUrl = null)
         {
             using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.BotBaseUrl);
@@ -72,7 +72,7 @@ namespace LineNotifyHelper
             var dict = new Dictionary<string, string>();
             dict.Add("grant_type", "authorization_code");
             dict.Add("code", authorizationCode);
-            dict.Add("redirect_uri", redirectUri ?? _options.CallbackUrl);
+            dict.Add("redirect_uri", callbackUrl ?? _options.CallbackUrl);
             dict.Add("client_id", _options.ClientId);
             dict.Add("client_secret", _options.ClinetSecret);
             var content = new FormUrlEncodedContent(dict);
