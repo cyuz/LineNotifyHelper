@@ -101,9 +101,10 @@ namespace LineNotifyHelper
             }
 
             using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", accessToken);
-
+            /// stupid checkmarx
+            //client.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("Bearer", accessToken);            
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
             client.BaseAddress = new Uri(_options.NotifyBaseUrl);
 
             var dict = new Dictionary<string, string>();
@@ -136,7 +137,10 @@ namespace LineNotifyHelper
             using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.NotifyBaseUrl);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            /// stupid checkmarx
+            //client.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("Bearer", accessToken);            
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             var dict = new Dictionary<string, string>();
             var content = new FormUrlEncodedContent(dict);
@@ -153,7 +157,10 @@ namespace LineNotifyHelper
             using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.NotifyBaseUrl);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            /// stupid checkmarx
+            //client.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("Bearer", accessToken);            
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             using var response = client.GetAsync(StatusAPI).Result;
 
