@@ -61,17 +61,17 @@ namespace LineNotifyHelper
         ///  one authorization Code only can generate access token once
         ///  just save the access token for future use
         /// </summary>
-        /// <param name="authorizationCode">the authorizationCode of this user</param>
+        /// <param name="code">the authorization code of this user</param>
         /// <param name="callbackUrl">override callbackUrl in options</param>
         /// <returns></returns>
-        public async Task<LineResponse<GetAccessTokenResponse>> GetAccessTokenAsync(string authorizationCode, string callbackUrl = null)
+        public async Task<LineResponse<GetAccessTokenResponse>> GetAccessTokenAsync(string code, string callbackUrl = null)
         {
             using HttpClient client = _httpClientFactory.CreateClient(_options.NamedClient);
             client.BaseAddress = new Uri(_options.BotBaseUrl);
 
             var dict = new Dictionary<string, string>();
             dict.Add("grant_type", "authorization_code");
-            dict.Add("code", authorizationCode);
+            dict.Add("code", code);
             dict.Add("redirect_uri", callbackUrl ?? _options.CallbackUrl);
             dict.Add("client_id", _options.ClientId);
             dict.Add("client_secret", _options.ClinetSecret);
