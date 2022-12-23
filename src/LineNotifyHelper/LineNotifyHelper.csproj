@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.9.2</Version>
+    <Version>0.9.3</Version>
     <Authors>yuchih_chen</Authors>
     <Description>A c# tool to wrap API for Line Notify</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -13,11 +13,9 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Line Notify</PackageTags>
     <Copyright>Copyright Reserved</Copyright>
-    <PackageReleaseNotes>1. support named client
-
-2. change function GenerateAuthorizeUri to GenerateAuthorizeUrl
-
-3. change parameter from redirectUri to callbackUrl</PackageReleaseNotes>
+    <PackageReleaseNotes>1. Use newtonsoft.json to fix checkmarx warning
+2. Add Authorization header directly, not via propery
+ to fix checkmarx warning</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
