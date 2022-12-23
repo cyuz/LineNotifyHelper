@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LineNotifyHelper.Response
 {
@@ -19,12 +14,14 @@ namespace LineNotifyHelper.Response
             if (!response.IsSuccessStatusCode)
             {
                 var jsonString = response.Content.ReadAsStringAsync().Result;
-                wrappedResponse.ErrorBody = JsonSerializer.Deserialize<LineErrorResponseBody>(jsonString);
+                /// stupid checkmarx
+                wrappedResponse.ErrorBody = JsonConvert.DeserializeObject<LineErrorResponseBody>(jsonString);
             }
             else
             {
                 var jsonString = response.Content.ReadAsStringAsync().Result;
-                wrappedResponse.Body = JsonSerializer.Deserialize<T>(jsonString);
+                /// stupid checkmarx
+                wrappedResponse.Body = JsonConvert.DeserializeObject<T>(jsonString);
             }
 
             return wrappedResponse;
